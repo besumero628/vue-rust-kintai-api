@@ -1,1 +1,1 @@
-DROP TABLE organization;
+DROP TABLE organizations;

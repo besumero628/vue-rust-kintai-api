@@ -1,0 +1,1 @@
+DROP TABLE stamp_types;
