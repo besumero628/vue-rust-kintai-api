@@ -2,17 +2,15 @@
 
 diesel::table! {
     organizations (id) {
-        id -> Integer,
+        id -> Unsigned<Bigint>,
         name -> Varchar,
         prescribed_working_hours -> Nullable<Float>,
-        created_at -> Datetime,
-        updated_at -> Datetime,
     }
 }
 
 diesel::table! {
     stamp_types (id) {
-        id -> Integer,
+        id -> Unsigned<Bigint>,
         name -> Varchar,
         created_at -> Datetime,
         updated_at -> Datetime,
@@ -20,13 +18,20 @@ diesel::table! {
 }
 
 diesel::table! {
+    tests (id) {
+        id -> Unsigned<Bigint>,
+        name -> Varchar,
+    }
+}
+
+diesel::table! {
     users (id) {
-        id -> Integer,
+        id -> Unsigned<Bigint>,
         family_name -> Varchar,
         given_name -> Varchar,
         email -> Varchar,
         password -> Varchar,
-        organization_id -> Nullable<Integer>,
+        organization_id -> Nullable<Unsigned<Bigint>>,
         created_at -> Datetime,
         updated_at -> Datetime,
     }
@@ -34,9 +39,9 @@ diesel::table! {
 
 diesel::table! {
     works (id) {
-        id -> Integer,
-        user_id -> Integer,
-        stamp_type_id -> Integer,
+        id -> Unsigned<Bigint>,
+        user_id -> Unsigned<Bigint>,
+        stamp_type_id -> Unsigned<Bigint>,
         stamp -> Datetime,
         created_at -> Datetime,
         updated_at -> Datetime,
@@ -50,6 +55,7 @@ diesel::joinable!(works -> users (user_id));
 diesel::allow_tables_to_appear_in_same_query!(
     organizations,
     stamp_types,
+    tests,
     users,
     works,
 );

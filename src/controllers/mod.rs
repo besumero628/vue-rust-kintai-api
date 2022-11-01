@@ -1,2 +1,1 @@
-pub mod index;
-pub mod create_organizaion;
+pub mod test_controller;

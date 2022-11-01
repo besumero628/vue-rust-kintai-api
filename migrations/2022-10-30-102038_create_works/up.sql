@@ -1,8 +1,8 @@
 CREATE TABLE works
 (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    stamp_type_id INT NOT NULL,
+    id SERIAL PRIMARY KEY,
+    user_id BIGINT UNSIGNED NOT NULL,
+    stamp_type_id BIGINT UNSIGNED NOT NULL,
     stamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_user_id
