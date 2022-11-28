@@ -1,13 +1,20 @@
-use actix_web::{web, App, HttpServer, HttpResponse};
-use api::routes::{config, scoped_config, test};
+use actix_web::{web, App, HttpResponse, HttpServer, http::header};
+use actix_cors::Cors;
+use api::routes::{user, work};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
-            .configure(config)
-            .service(web::scope("/api").configure(scoped_config))
-            .configure(test)
+            .wrap(
+                Cors::default()
+                    .allowed_origin("http://localhost:3000")
+                    .allowed_methods(vec!["GET", "POST", "PUT", "DELETE"])
+                    .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT])
+                    .allowed_header(header::CONTENT_TYPE)
+            )
+            .configure(user)
+            .configure(work)
             .route(
                 "/",
                 web::get().to(|| async { HttpResponse::Ok().body("/") }),

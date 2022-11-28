@@ -1,38 +1,24 @@
-use crate::controllers::test_controller;
-use actix_web::{web, HttpResponse};
+use crate::controllers::{users_controller, works_controller};
+use actix_web::web;
 
-pub fn scoped_config(cfg: &mut web::ServiceConfig) {
+pub fn user(cfg: &mut web::ServiceConfig) {
     cfg.service(
-        web::resource("/test")
-            .route(web::get().to(|| async { HttpResponse::Ok().body("test!") }))
-            .route(web::head().to(HttpResponse::MethodNotAllowed)),
+        web::resource("/user")
+            .route(web::get().to(users_controller::show))
+            .route(web::post().to(users_controller::create))
+    )
+    .service(
+        web::resource("/user/{user_id}")
+            .route(web::put().to(users_controller::update))
     );
 }
 
-// this function could be located in a different module
-pub fn config(cfg: &mut web::ServiceConfig) {
+pub fn work(cfg: &mut web::ServiceConfig) {
     cfg.service(
-        web::resource("/app")
-            .route(web::get().to(|| async { HttpResponse::Ok().body("app!") }))
-            .route(web::head().to(HttpResponse::MethodNotAllowed)),
-    );
-}
-
-pub fn test(cfg: &mut web::ServiceConfig) {
-    cfg.service(
-        web::resource("/test")
-            .route(web::get().to(test_controller::index))
-            .route(web::get().to(test_controller::new))
-            .route(web::post().to(test_controller::create))
-    )
-    .service(
-        web::resource("/test/{user_id}")
-            .route(web::get().to(test_controller::show))
-            .route(web::put().to(test_controller::update))
-            .route(web::delete().to(test_controller::delete))
-    )
-    .service(
-        web::resource("/test/{user_id}/edit")
-        .route(web::get().to(test_controller::edit))
+        web::resource("/work")
+            .route(web::get().to(works_controller::index))
+            .route(web::post().to(works_controller::create))
+            .route(web::put().to(works_controller::update))
+            .route(web::delete().to(works_controller::delete)),
     );
 }
